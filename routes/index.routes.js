@@ -10,4 +10,4 @@ router.get('/about', (req, res) => {
     res.send('about route!');
 });
 
-export default router;
+export default router
