@@ -34,7 +34,7 @@ server.use("/", homeRoutes);
 server.use("/auth", authRoutes);
 
 // Definir el puerto
-const port = 3000;
+const port = process.env.PORT || 3000;
 server.listen(port, () => {
   console.log(`Server is running in port ${port} \n localhost:${port}`);
 });
