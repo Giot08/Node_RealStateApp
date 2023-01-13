@@ -1,25 +1,25 @@
 extends ../layout/index
 
-block contenido
+block content
     div(class="py-10")
         h1(class="text-4xl my-10 font-extrabold text-center") Bienes
             span(class="font-normal") Raices
         h2(class=" text-center text-2xl font-extrabold")= pagina 
         div(class="mt-8 mx-auto max-w-md")
             div(class="bg-white py-8 px-4 shadow")
-                form(class="space-y-5")
+                form(class="space-y-5" method="POST" action="/auth/register")
                     div
-                        label(for="nombre" class="block text-sm uppercase text-white-500 mb-2 font-bold") Tu nombre
-                        input(class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Tu nombre" id="nombre")
+                        label(for="name" class="block text-sm uppercase text-white-500 mb-2 font-bold") Name
+                        input(class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Tu nombre" name="name")
                     div
-                        label(for="email" class="block text-sm uppercase text-white-500 mb-2 font-bold") Tu email
-                        input(class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Tu email" id="email")
+                        label(for="email" class="block text-sm uppercase text-white-500 mb-2 font-bold") Email
+                        input(class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Tu email" name="email")
                     div
-                        label(for="password" class="block text-sm uppercase text-white-500 mb-2 font-bold") Tu password
-                        input(class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Tu password" id="password")
+                        label(for="password" class="block text-sm uppercase text-white-500 mb-2 font-bold") Password
+                        input(class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Tu password" name="password")
                     div
-                        label(for="repassword" class="block text-sm uppercase text-white-500 mb-2 font-bold") Tu repassword
-                        input(class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Tu repassword" id="repassword")
+                        label(for="repassword" class="block text-sm uppercase text-white-500 mb-2 font-bold") Repassword
+                        input(class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Tu repassword" name="repassword")
                     div(class="flex items-center justify-between")
                         a(href="/auth/login") have account?
                     input(type="submit" value="Crear cuenta" class="w-full bg-indigo-600 hover:bg-indigo-800 text-white cursor-pointer py-3 rounded")
