@@ -12,6 +12,7 @@ const formLogin = (req, res) => {
 const formRegister = (req, res) => {
   res.render("auth/register", {
     page: "Register",
+    csrfToken: req.csrfToken()
   });
 };
 const postFormRegister = async (req, res) => {
@@ -34,6 +35,7 @@ const postFormRegister = async (req, res) => {
     console.log(req.body);
     return res.render("auth/register", {
       page: "Register",
+      csrfToken: req.csrfToken(),
       errors: result.array(),
       user: {
         name: name,
@@ -51,6 +53,7 @@ const postFormRegister = async (req, res) => {
   if (findUser) {
     return res.render("auth/register", {
       page: "Register",
+      csrfToken: req.csrfToken(),
       errors: [{ msg: "User already exist" }],
       user: {
         name: name,
