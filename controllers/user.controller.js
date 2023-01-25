@@ -64,7 +64,7 @@ const authLogin = async (req, res) => {
   return res.cookie('_token', token, {
     httpOnly: true,
     //secure: true // en el deploy con ssl
-  }).redirect('/catalogs')
+  }).redirect('/dashboard')
 
 };
 const formRegister = (req, res) => {

@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import homeRoutes from "./routes/index.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import dashboardRoutes from "./routes/sellings.routes.js";
 import db from "./config/db.js";
 
 //crear la app
@@ -38,6 +39,7 @@ server.use(express.static("public"));
 //con use usa todas las rutas con una asociacion de '/'
 server.use("/", homeRoutes);
 server.use("/auth", authRoutes);
+server.use("/dashboard", dashboardRoutes);
 
 // Definir el puerto
 const port = process.env.PORT || 3000;
