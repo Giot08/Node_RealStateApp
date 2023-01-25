@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 
 import homeRoutes from "./routes/index.routes.js";
 import authRoutes from "./routes/auth.routes.js";
-import dashboardRoutes from "./routes/sellings.routes.js";
+import dashboardRoutes from "./routes/dashboard.routes.js";
 import db from "./config/db.js";
 
 //crear la app
