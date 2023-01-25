@@ -18,13 +18,13 @@ block content
                         input(type="text" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Your name" name="name" value= user ? user.name : "")
                     div
                         label(for="email" class="block text-sm uppercase text-white-500 mb-2 font-bold") Email
-                        input(type="text" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Your email" name="email" value= user ? user.email : "")
+                        input(type="email" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Your email" name="email" value= user ? user.email : "")
                     div
                         label(for="password" class="block text-sm uppercase text-white-500 mb-2 font-bold") Password
-                        input(type="text" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Password" name="password")
+                        input(type="password" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Password" name="password")
                     div
                         label(for="repassword" class="block text-sm uppercase text-white-500 mb-2 font-bold") Repeat password
-                        input(type="text" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Repeat password" name="repeat_password")
+                        input(type="password" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400" placeholder="Repeat password" name="repeat_password")
                     div(class="flex items-center justify-between")
                         a(href="/auth/login") have account?
                     input(type="submit" value="Crear cuenta" class="w-full bg-indigo-600 hover:bg-indigo-800 text-white cursor-pointer py-3 rounded")
