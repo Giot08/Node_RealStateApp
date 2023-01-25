@@ -15,7 +15,7 @@
     "mysql",
     "sequelize"
   ],
-  "author": "Giot", 
+  "author": "Giot",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -24,6 +24,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
+    "jsonwebtoken": "^9.0.0",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.9.0",
     "pug": "^3.0.2",

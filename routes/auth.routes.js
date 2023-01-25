@@ -1,6 +1,7 @@
 import express from "express";
 import {
   formLogin,
+  authLogin,
   formRegister,
   formForgotPassword,
   postFormRegister,
@@ -14,6 +15,7 @@ const router = express.Router();
 
 // routing
 router.get("/login", formLogin);
+router.post("/login", authLogin);
 router.get("/register", formRegister);
 router.post("/register", postFormRegister);
 router.get("/register/validate/:token", validateEmail);

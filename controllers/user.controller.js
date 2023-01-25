@@ -2,13 +2,70 @@ import { check, validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 
 import User from "../models/User.js";
-import { generateID } from "../helpers/token.js";
+import { genID, genJWT } from "../helpers/token.js";
 import { emailRegister, emailResetPassword } from "../helpers/emails.js";
 
 const formLogin = (req, res) => {
   res.render("auth/login", {
     page: "Login",
+    csrfToken: req.csrfToken(),
   });
+};
+const authLogin = async (req, res) => {
+  await check("email").isEmail().withMessage("Email not valid").run(req);
+  await check("password").notEmpty().withMessage("Password needed").run(req);
+
+  let result = validationResult(req);
+
+  if (!result.isEmpty()) {
+    return res.render("auth/login", {
+      page: "Login",
+      csrfToken: req.csrfToken(),
+      errors: result.array(),
+    });
+  }
+
+  const { email, password } = req.body
+  const user = await User.findOne({where: {email}});
+  // console.log(user);
+  if(!user) {
+    return res.render("auth/login", {
+      page: "Login",
+      csrfToken: req.csrfToken(),
+      errors: [{msg: "User not found"}],
+    });
+  }
+
+  if(!user.emailAuthenticate) {
+    return res.render("auth/login", {
+      page: "Login",
+      csrfToken: req.csrfToken(),
+      errors: [{msg: "Your account is not confirmed yet!."}],
+    });
+  }
+
+  // Review password
+  if(!user.verifyPassword(password)){
+    return res.render("auth/login", {
+      page: "Login",
+      csrfToken: req.csrfToken(),
+      user: {
+        email: email,
+      },
+      errors: [{msg: "Incorrect password"}],
+    });
+  }
+
+  // auth user
+  const token = genJWT(user.id) ;
+
+  // save in cookies
+  console.log(token);
+  return res.cookie('_token', token, {
+    httpOnly: true,
+    //secure: true // en el deploy con ssl
+  }).redirect('/catalogs')
+
 };
 const formRegister = (req, res) => {
   res.render("auth/register", {
@@ -68,7 +125,7 @@ const postFormRegister = async (req, res) => {
     name,
     email,
     password,
-    token: generateID(),
+    token: genID(),
   });
 
   res.render("templates/message", {
@@ -148,7 +205,7 @@ const resetPassword = async (req, res) => {
     });
   }
 
-  user.token = generateID();
+  user.token = genID();
   await user.save();
 
   // enviar email
@@ -180,7 +237,7 @@ const checkToken = async (req, res) => {
   // show form for modify password
   res.render("auth/reset_password", {
     page: "Restart your Password",
-    csrfToken: req.csrfToken()
+    csrfToken: req.csrfToken(),
   });
 };
 const newPassword = async (req, res) => {
@@ -197,14 +254,14 @@ const newPassword = async (req, res) => {
     return res.render("auth/reset_password", {
       page: "Restart your Password",
       csrfToken: req.csrfToken(),
-      errors: result.array()
+      errors: result.array(),
     });
   }
 
-  const {token} = req.params;
-  const {  password} = req.body
+  const { token } = req.params;
+  const { password } = req.body;
 
-  const user = await User.findOne({where: {token}});
+  const user = await User.findOne({ where: { token } });
 
   // hashpassword
   const salt = await bcrypt.genSalt(10);
@@ -214,16 +271,14 @@ const newPassword = async (req, res) => {
   await user.save();
 
   res.render("auth/validate_account", {
-    page:"Password change succesful",
-    msg: "Password change correctly"
-  })
-
-
-
+    page: "Password change succesful",
+    msg: "Password change correctly",
+  });
 };
 
 export {
   formLogin,
+  authLogin,
   formRegister,
   postFormRegister,
   validateEmail,
