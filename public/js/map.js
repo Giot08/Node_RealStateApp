@@ -16,7 +16,7 @@
   \***********************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\nalert(\"map\");\n\n//# sourceURL=webpack://game_change_mvc/./src/js/map.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n(function() {\r\n    const lat = 10.056280026780279;\r\n    const lng = -69.33946211611826;\r\n    const map = L.map('map').setView([lat, lng ], 10);\r\n\r\n    let marker;\r\n    \r\n    // utilizar provider y geocoder\r\n    const geocodeService = L.esri.Geocoding.geocodeService();\r\n    \r\n\r\n    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {\r\n        attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'\r\n    }).addTo(map);\r\n\r\n    marker = new L.marker([lat,lng], {\r\n        draggable: true,\r\n        autoPan:true\r\n    })\r\n    .addTo(map)\r\n\r\n    marker.on('moveend', function(event){\r\n        marker = event.target\r\n\r\n        const position = marker.getLatLng();\r\n\r\n        //console.log(position)\r\n        map.panTo(new L.LatLng(position.lat, position.lng));\r\n\r\n        // get info\r\n        geocodeService.reverse().latlng(position, 16).run (function(error, res) {\r\n            //console.log(res)   \r\n\r\n            marker.bindPopup(res.address.LongLabel)\r\n        })\r\n    })\r\n\r\n})()\n\n//# sourceURL=webpack://game_change_mvc/./src/js/map.js?");
 
 /***/ })
 
