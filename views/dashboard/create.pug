@@ -49,7 +49,15 @@ block content
                                 - var n = 1;
                                     while n < 6
                                         option(value=n) #{n++} 
-                    #map.h-96
+                    div(class="border-gray-200 border-t py-5")
+                        h3(class="text-lg leading-6 font-medium text-gray-900") Map 
+                        p(class="text-gray-600") Add where are you selling
+                        #map.h-96
+                        div
+                            p(class="street")
+                        input(type="hidden" name="street" id="street")
+                        input(type="hidden" name="lat" id="lat")
+                        input(type="hidden" name="lng" id="lng")
 block scripts
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
     script(src="https://unpkg.com/esri-leaflet@3.0.8/dist/esri-leaflet.js")

@@ -29,9 +29,14 @@
 
         // get info
         geocodeService.reverse().latlng(position, 16).run (function(error, res) {
-            //console.log(res)   
-
+            console.log(res)   
             marker.bindPopup(res.address.LongLabel)
+
+            // llenar los campos
+            document.querySelector('.street').textContent = res?.address?.Address ?? '';
+            document.querySelector('#street').value = res?.address?.Address ?? '';
+            document.querySelector('#lat').value = res?.latlng?.lat ?? '';
+            document.querySelector('#lng').value = res?.latlng?.lng ?? '';
         })
     })
 
