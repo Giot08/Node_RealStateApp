@@ -26,10 +26,14 @@ block content
                             label(class="block text-sm uppercase text-gray-500 mb-3 font-bold" for="category") Category 
                             select( id="category" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400" name="category")
                                 option(value="Select") - Select -
+                                each category in categories 
+                                    option(value=category.id)= category.name
                         div(class="md:w-1/2")
                             label(class="block text-sm uppercase text-gray-500 mb-3 font-bold" for="price") Price 
                             select( id="price" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400" name="price")
                                 option(value="Select") - Select -
+                                each price in prices 
+                                    option(value=price.id)= price.name
 
                     div(class="md:flex md:gap-4 space-y-5 md:space-y-0")
                         div(class="md:w-1/3")
