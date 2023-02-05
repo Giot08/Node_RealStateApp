@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import db from "../config/db.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 const User = db.define(
   "users",
@@ -27,6 +27,19 @@ const User = db.define(
         user.password = await bcrypt.hash(user.password, salt);
       },
     },
+    scopes: {
+      deletePassword: {
+        attributes: {
+          exclude: [
+            "password",
+            "token",
+            "emailAuthenticate",
+            "createdAt",
+            "updatedAt",
+          ],
+        },
+      },
+    },
   }
 );
 
@@ -34,6 +47,6 @@ const User = db.define(
 
 User.prototype.verifyPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
-}
+};
 
 export default User;

@@ -40,7 +40,7 @@ const Sell = db.define("Sells", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  imagen: {
+  image: {
     type: DataTypes.STRING,
     allowNull: false,
   },
