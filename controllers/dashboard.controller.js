@@ -1,5 +1,4 @@
-import Price from "../models/Price.js";
-import Category from "../models/Category.js";
+import { Price, Category, Sell } from "../models/index.js";
 import { validationResult } from "express-validator";
 
 const dashboard = (req, res) => {
@@ -22,6 +21,7 @@ const createSelling = async (req, res) => {
     csrfToken: req.csrfToken(),
     categories,
     prices,
+    data: "",
   });
 };
 
@@ -41,7 +41,40 @@ const saveSelling = async (req, res) => {
       categories,
       prices,
       errors: result.array(),
+      data: req.body,
     });
+
+    try {
+      const {
+        title,
+        description,
+        rooms,
+        parking,
+        bathrooms,
+        street,
+        lat,
+        lng,
+        price: priceId,
+        category: categoryId,
+        user: userId,
+      } = req.body;
+
+      const saveSell = await Sell.create({
+        title,
+        description,
+        rooms,
+        parking,
+        bathrooms,
+        street,
+        lat,
+        lng,
+        priceId,
+        categoryId,
+        userId,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 
