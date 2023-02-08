@@ -6,6 +6,7 @@ import {
   dashboard,
   createSelling,
   saveSelling,
+  addImage,
 } from "../controllers/dashboard.controller.js";
 
 import protectRoute from "../middleware/protectRoutes.js";
@@ -28,8 +29,11 @@ router.post(
   body("parking").isNumeric().withMessage("Select a parking"),
   body("bathrooms").isNumeric().withMessage("Select a bathrooms"),
   body("lat").notEmpty().withMessage("Find your location in the map"),
-  
+
   saveSelling
 );
-
+router.get("/create_selling/add-image/:id", protectRoute, addImage);
+router.post("/create_selling/add-image/:id", (req, res) => {
+  console.log('uploading');
+});
 export default router;
