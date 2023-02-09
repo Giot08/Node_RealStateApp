@@ -7,6 +7,7 @@ import {
   createSelling,
   saveSelling,
   addImage,
+  saveImage
 } from "../controllers/dashboard.controller.js";
 
 import protectRoute from "../middleware/protectRoutes.js";
@@ -34,8 +35,7 @@ router.post(
   saveSelling
 );
 router.get("/create_selling/add-image/:id", protectRoute, addImage);
-router.post("/add-image/:id", upload.single("image"), () => {
-  console.log('upload')
-}
-);
+router.post("/add-image/:id", protectRoute, upload.single("image"), saveImage);
+
+
 export default router;

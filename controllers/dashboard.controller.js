@@ -92,7 +92,7 @@ const addImage = async (req, res) => {
     return res.redirect("/dashboard");
   }
   //console.log(req.user)
-  if(req.user.id.toString() !== sellObject.userId.toString()){
+  if (req.user.id.toString() !== sellObject.userId.toString()) {
     return res.redirect("/dashboard");
   }
 
@@ -103,8 +103,43 @@ const addImage = async (req, res) => {
     page: "Add Image",
     subtitle: "Add your images for publish your selling!",
     csrfToken: req.csrfToken(),
-    sellObject
+    sellObject,
   });
 };
 
-export { dashboard, createSelling, saveSelling, addImage };
+const saveImage = async (req, res, next) => {
+  const { id } = req.params;
+
+  // que exista
+  const sellObject = await Sell.findByPk(id);
+  if (!sellObject) {
+    return res.redirect("/dashboard");
+  }
+  if (sellObject.published) {
+    return res.redirect("/dashboard");
+  }
+  //console.log(req.user)
+  if (req.user.id.toString() !== sellObject.userId.toString()) {
+    return res.redirect("/dashboard");
+  }
+
+
+  try {
+
+    //console.log(req.file)
+    
+    sellObject.image = req.file.filename
+    sellObject.published = 1
+    
+    //console.log(sellObject)
+    await sellObject.save()
+
+    next()
+
+    // Save image
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { dashboard, createSelling, saveSelling, addImage, saveImage };
