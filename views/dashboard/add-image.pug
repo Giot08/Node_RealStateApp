@@ -12,6 +12,6 @@ block content
             form(id="image" class="dropzone border-dashed border-2 w-full min:h96 h-auto rounded flex-col justify-center items-center" method="POST" action=`/dashboard/add-image/${sellObject.id}`) 
                 input(type="hidden" name="_csrf" value= csrfToken)
 
-            button(id="publish-sell" class="w-full mt-5 py-3 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold uppercase cursor-pointer" type="button") Add images
+            button(id="publish-sell" data-id=`${sellObject.id}` class="w-full mt-5 py-3 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold uppercase cursor-pointer" type="button") Add images
 block scripts
     script(src="/js/addImage.js") 

@@ -24,11 +24,12 @@ Dropzone.options.image = {
     const dropzone = this;
     const publishBtn = document.getElementById("publish-sell");
     publishBtn.addEventListener('click', function() {
-        dropzone.processQueue()
+      dropzone.processQueue()
     })
     dropzone.on('queuecomplete', function(){
-        if(dropzone.getActiveFiles().length == 0){
-            window.location.href = '/dashboard'
+      if(dropzone.getActiveFiles().length == 0){
+          console.log(`/dashboard/${publishBtn.dataset.id}`)
+            window.location.href = `/dashboard/${publishBtn.dataset.id}`
         }
     })
   },

@@ -7,7 +7,8 @@ import {
   createSelling,
   saveSelling,
   addImage,
-  saveImage
+  saveImage,
+  imageSuccesful
 } from "../controllers/dashboard.controller.js";
 
 import protectRoute from "../middleware/protectRoutes.js";
@@ -23,17 +24,19 @@ router.post(
   body("title").notEmpty().withMessage("Title can't be empty."),
   body("description").notEmpty().withMessage("Description can't be empty."),
   body("description")
-    .isLength({ max: 200 })
-    .withMessage("Description too large, the max is 200 char length"),
+  .isLength({ max: 200 })
+  .withMessage("Description too large, the max is 200 char length"),
   body("category").isNumeric().withMessage("Select a category"),
   body("price").isNumeric().withMessage("Select a price"),
   body("rooms").isNumeric().withMessage("Select a rooms"),
   body("parking").isNumeric().withMessage("Select a parking"),
   body("bathrooms").isNumeric().withMessage("Select a bathrooms"),
   body("lat").notEmpty().withMessage("Find your location in the map"),
-
+  
   saveSelling
-);
+  );
+  //router.get("/create_selling/add-image/:id", protectRoute, addImage);
+router.get("/:id", protectRoute, imageSuccesful);
 router.get("/create_selling/add-image/:id", protectRoute, addImage);
 router.post("/add-image/:id", protectRoute, upload.single("image"), saveImage);
 

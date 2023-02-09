@@ -75,6 +75,7 @@ const saveSelling = async (req, res) => {
 
     const { id } = saveSell;
     res.redirect(`/dashboard/create_selling/add-image/${id}`);
+
   } catch (error) {
     console.error(error);
   }
@@ -98,7 +99,6 @@ const addImage = async (req, res) => {
 
   // que no este publicada
   // que la propiedad pertenece al quien usa
-
   res.render("dashboard/add-image", {
     page: "Add Image",
     subtitle: "Add your images for publish your selling!",
@@ -109,7 +109,6 @@ const addImage = async (req, res) => {
 
 const saveImage = async (req, res, next) => {
   const { id } = req.params;
-
   // que exista
   const sellObject = await Sell.findByPk(id);
   if (!sellObject) {
@@ -118,28 +117,45 @@ const saveImage = async (req, res, next) => {
   if (sellObject.published) {
     return res.redirect("/dashboard");
   }
-  //console.log(req.user)
   if (req.user.id.toString() !== sellObject.userId.toString()) {
     return res.redirect("/dashboard");
   }
-
-
   try {
-
-    //console.log(req.file)
-    
-    sellObject.image = req.file.filename
-    sellObject.published = 1
-    
-    //console.log(sellObject)
-    await sellObject.save()
-
-    next()
-
+    sellObject.image = req.file.filename;
+    sellObject.published = 1;
+    await sellObject.save();
+    next();
     // Save image
   } catch (error) {
     console.log(error);
   }
 };
 
-export { dashboard, createSelling, saveSelling, addImage, saveImage };
+
+const imageSuccesful = async (req, res) => {
+  const { id } = req.params;
+
+  const sellObject = await Sell.findByPk(id);
+  console.log(sellObject.image)
+  if (sellObject.image) {
+    console.log('activo')
+    res.render("dashboard/home", {
+      page: "Dashboard",
+      image: true
+    });
+  }
+  res.render("dashboard/home", {
+    page: "Dashboard",
+    image: false
+  });
+
+};
+
+export {
+  dashboard,
+  createSelling,
+  saveSelling,
+  addImage,
+  saveImage,
+  imageSuccesful,
+};
