@@ -517,10 +517,6 @@ video {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
 }
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -533,11 +529,11 @@ video {
 .mt-10 {
   margin-top: 2.5rem;
 }
-.mb-3 {
-  margin-bottom: 0.75rem;
-}
 .mt-5 {
   margin-top: 1.25rem;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
 }
 .block {
   display: block;
@@ -548,11 +544,11 @@ video {
 .hidden {
   display: none;
 }
-.h-96 {
-  height: 24rem;
-}
 .h-auto {
   height: auto;
+}
+.h-96 {
+  height: 24rem;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -587,11 +583,6 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
-}
-.space-y-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 .rounded {
   border-radius: 0.25rem;

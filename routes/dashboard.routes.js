@@ -10,6 +10,7 @@ import {
 } from "../controllers/dashboard.controller.js";
 
 import protectRoute from "../middleware/protectRoutes.js";
+import upload from "../middleware/uploadImage.js";
 
 const router = express.Router();
 
@@ -33,7 +34,8 @@ router.post(
   saveSelling
 );
 router.get("/create_selling/add-image/:id", protectRoute, addImage);
-router.post("/create_selling/add-image/:id", (req, res) => {
-  console.log('uploading');
-});
+router.post("/add-image/:id", upload.single("image"), () => {
+  console.log('upload')
+}
+);
 export default router;

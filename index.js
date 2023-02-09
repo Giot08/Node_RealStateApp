@@ -1,17 +1,18 @@
 //const express = require("express");
-import express, { application } from "express";
+import express from "express";
 import csurf from "csurf";
 import cookieParser from "cookie-parser";
 
 import homeRoutes from "./routes/index.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
+
 import db from "./config/db.js";
 
 //crear la app
 export const server = express();
 
-// Habilitar datos de forms
+// Habilitar leer datos de forms
 server.use(express.urlencoded({ extended: true }));
 
 // Habilitar cookie parser
