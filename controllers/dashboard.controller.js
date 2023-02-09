@@ -74,7 +74,7 @@ const saveSelling = async (req, res) => {
     });
 
     const { id } = saveSell;
-    res.redirect(`/sells/${id}`);
+    res.redirect(`/dashboard/create_selling/add-image/${id}`);
   } catch (error) {
     console.error(error);
   }
