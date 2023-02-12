@@ -7,4 +7,25 @@ block content
     div(class="py-10")
         h2(class=" text-center text-2xl font-extrabold")= page 
         a(href="/dashboard/create_selling" class="rounded p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm text-center my-2") Create new selling
-        
+    
+    //- pre= JSON.stringify(sellings, undefined, 2)
+    if sellings 
+        div(class="bg-white shadow rounded-lg")
+            ul(class="divide-y divide-gray-200")
+                each sell in sellings 
+                    li 
+                        div(class="p-6 w-full flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-8 gap-4")
+                            div(class="sm:w-1/4 md:w-1/6 lg:w-1/6")
+                                img(src=`uploads/${sell.image}`, alt=`${sell.title}` class="w-full block")
+                            div(class="sm:w-2/4 md:w-3/6 lg:w-4/6 space-y-3")
+                                a(href="#" class="block text-2xl font-extrabold text-blue-700 truncate")= sell.title
+                                p(class="text-sm text-black font-bold")=sell.Category.name
+                                p(class="text-sm text-black font-bold")=sell.Price.name
+                            div(class="sm:w-1/4 md:w-2/6 lg:flex-1 flex flex-col gap-2 lg:flex-row")
+                                form(action="#") 
+                                    input(type="submit" class=`w-full px-2 py-2 md:py-1 text-xs rounded font-semibold leading-5 cursor-pointer ${sell.published ? 'text-green-800 bg-green-100' : 'text-yellow-800 bg-yellow-100'} ` value=`${sell.published ? 'Live' : 'No published'}`)
+                                a(href="#" class="text-center px-2 py-2 md:py-1 text-xs rounded font-semibold leading-5 curser-pointer bg-blue-100 text-blue-800") Edit
+                                form(action="#") 
+                                    input(type="submit" class="w-full px-2 py-2 md:py-1 text-xs rounded font-semibold leading-5 cursor-pointer bg-red-100 text-red-900" value="Delete")
+    else 
+        p(class="text-center") publish your first selling!

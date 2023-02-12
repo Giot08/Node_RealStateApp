@@ -1,11 +1,31 @@
 import { Price, Category, Sell } from "../models/index.js";
 import { validationResult } from "express-validator";
 
-const dashboard = (req, res) => {
+const dashboard =async (req, res) => {
+
+  const { id } = req.user
+  console.log(id);
+
+  const sellings = await Sell.findAll({
+    where: {
+      userId: id
+    },
+    include: [
+      {
+        model: Category //as: "category"
+      },
+      {
+        model: Price, // as "price"
+      }
+    ]
+  })
+
   res.render("dashboard/home", {
     page: "Dashboard",
+    sellings
   });
 };
+
 const createSelling = async (req, res) => {
   //db
   const [categories, prices] = await Promise.all([
