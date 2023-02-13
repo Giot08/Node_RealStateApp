@@ -1,28 +1,27 @@
 import { Price, Category, Sell } from "../models/index.js";
 import { validationResult } from "express-validator";
 
-const dashboard =async (req, res) => {
-
-  const { id } = req.user
+const dashboard = async (req, res) => {
+  const { id } = req.user;
   console.log(id);
 
   const sellings = await Sell.findAll({
     where: {
-      userId: id
+      userId: id,
     },
     include: [
       {
-        model: Category //as: "category"
+        model: Category, //as: "category"
       },
       {
         model: Price, // as "price"
-      }
-    ]
-  })
+      },
+    ],
+  });
 
   res.render("dashboard/home", {
     page: "Dashboard",
-    sellings
+    sellings,
   });
 };
 
@@ -39,7 +38,7 @@ const createSelling = async (req, res) => {
     csrfToken: req.csrfToken(),
     categories,
     prices,
-    data: "",
+    data: {},
   });
 };
 
@@ -51,7 +50,7 @@ const saveSelling = async (req, res) => {
       Price.findAll(),
     ]);
 
-    res.render("dashboard/create", {
+    return res.render("dashboard/create", {
       page: "Dashboard",
       subtitle: "Create new selling",
       csrfToken: req.csrfToken(),
@@ -95,7 +94,6 @@ const saveSelling = async (req, res) => {
 
     const { id } = saveSell;
     res.redirect(`/dashboard/create_selling/add-image/${id}`);
-
   } catch (error) {
     console.error(error);
   }
@@ -151,24 +149,113 @@ const saveImage = async (req, res, next) => {
   }
 };
 
-
 const imageSuccesful = async (req, res) => {
   const { id } = req.params;
 
   const sellObject = await Sell.findByPk(id);
-  console.log(sellObject.image)
+  console.log(sellObject.image);
   if (sellObject.image) {
-    console.log('activo')
-    res.render("dashboard/home", {
+    console.log("activo");
+    return res.render("dashboard/home", {
       page: "Dashboard",
-      image: true
+      image: true,
     });
   }
   res.render("dashboard/home", {
     page: "Dashboard",
-    image: false
+    image: false,
   });
+};
 
+const editSelling = async (req, res) => {
+  const { id } = req.params;
+  const sell = await Sell.findByPk(id);
+  console.log(sell);
+  if (!sell) {
+    return res.redirect("/dashboard");
+  }
+  if (sell.userId.toString() != req.user.id.toString()) {
+    return res.redirect("/dashboard");
+  }
+  const [categories, prices] = await Promise.all([
+    Category.findAll(),
+    Price.findAll(),
+  ]);
+
+  res.render("dashboard/edit", {
+    page: "Dashboard",
+    subtitle: `Edit your selling: ${sell.title}`,
+    csrfToken: req.csrfToken(),
+    categories,
+    prices,
+    data: sell,
+  });
+};
+
+const saveChanges = async (req, res) => {
+  // verify
+  let result = validationResult(req);
+  if (!result.isEmpty()) {
+    const [categories, prices] = await Promise.all([
+      Category.findAll(),
+      Price.findAll(),
+    ]);
+
+    return res.render("dashboard/edit", {
+      page: "Dashboard",
+      subtitle: "Edit your selling",
+      csrfToken: req.csrfToken(),
+      categories,
+      prices,
+      errors: result.array(),
+      data: req.body,
+    });
+  }
+
+  // get params
+
+  const { id } = req.params;
+  const sell = await Sell.findByPk(id);
+  console.log(sell);
+  if (!sell) {
+    return res.redirect("/dashboard");
+  }
+  if (sell.userId.toString() != req.user.id.toString()) {
+    return res.redirect("/dashboard");
+  }
+
+  try {
+    const {
+      title,
+      description,
+      rooms,
+      parking,
+      bathrooms,
+      street,
+      lat,
+      lng,
+      price: priceId,
+      category: categoryId,
+    } = req.body;
+
+    sell.set({
+      title,
+      description,
+      rooms,
+      parking,
+      bathrooms,
+      street,
+      lat,
+      lng,
+      priceId,
+      categoryId,
+    });
+
+    await sell.save();
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export {
@@ -178,4 +265,6 @@ export {
   addImage,
   saveImage,
   imageSuccesful,
+  editSelling,
+  saveChanges,
 };
