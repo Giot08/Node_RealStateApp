@@ -1,3 +1,4 @@
+import { unlink } from 'node:fs/promises'
 import { Price, Category, Sell } from "../models/index.js";
 import { validationResult } from "express-validator";
 
@@ -22,6 +23,7 @@ const dashboard = async (req, res) => {
   res.render("dashboard/home", {
     page: "Dashboard",
     sellings,
+    csrfToken: req.csrfToken(),
   });
 };
 
@@ -258,6 +260,27 @@ const saveChanges = async (req, res) => {
   }
 };
 
+const deleteSell = async (req, res) => {
+
+  const { id } = req.params;
+  const sell = await Sell.findByPk(id);
+  console.log(sell);
+  if (!sell) {
+    return res.redirect("/dashboard");
+  }
+  if (sell.userId.toString() != req.user.id.toString()) {
+    return res.redirect("/dashboard");
+  }
+
+  // Delete method 
+  await unlink(`public/uploads/${sell.image}`)
+
+  await sell.destroy()
+  res.redirect("/dashboard");
+
+
+}
+
 export {
   dashboard,
   createSelling,
@@ -267,4 +290,5 @@ export {
   imageSuccesful,
   editSelling,
   saveChanges,
+  deleteSell
 };

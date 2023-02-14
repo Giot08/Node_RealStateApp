@@ -25,7 +25,8 @@ block content
                                 form(action="#") 
                                     input(type="submit" class=`w-full px-2 py-2 md:py-1 text-xs rounded font-semibold leading-5 cursor-pointer ${sell.published ? 'text-green-800 bg-green-100' : 'text-yellow-800 bg-yellow-100'} ` value=`${sell.published ? 'Live' : 'No published'}`)
                                 a(href=`/dashboard/edit_selling/${sell.id}` class="text-center px-2 py-2 md:py-1 text-xs rounded font-semibold leading-5 curser-pointer bg-blue-100 text-blue-800") Edit
-                                form(action="#") 
+                                form(method="POST" action=`/dashboard/edit_selling/delete/${sell.id}`) 
+                                    input(type="hidden" name="_csrf" value=csrfToken)
                                     input(type="submit" class="w-full px-2 py-2 md:py-1 text-xs rounded font-semibold leading-5 cursor-pointer bg-red-100 text-red-900" value="Delete")
     else 
         p(class="text-center") publish your first selling!  

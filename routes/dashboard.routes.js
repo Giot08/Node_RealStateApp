@@ -10,7 +10,8 @@ import {
   saveImage,
   imageSuccesful,
   editSelling,
-  saveChanges
+  saveChanges,
+  deleteSell
 } from "../controllers/dashboard.controller.js";
 
 import protectRoute from "../middleware/protectRoutes.js";
@@ -59,5 +60,10 @@ router.post(
   body("lat").notEmpty().withMessage("Find your location in the map"),
   saveChanges
   );
+
+  router.post('/edit_selling/delete/:id', 
+  protectRoute,
+  deleteSell
+  )
 
 export default router;
