@@ -1,13 +1,13 @@
 import express from "express";
 
-const router = express.Router()
+import { viewItem } from "../controllers/index.controller.js";
+
+const router = express.Router();
 
 // routing
-router.get('/', (req, res) => {
-    res.json({msg: "hola", txt:"Lorem ipsun"});
+router.get("/", (req, res) => {
+  res.json({ msg: "hola", txt: "Lorem ipsun" });
 });
-router.get('/about', (req, res) => {
-    res.send('about route!');
-});
+router.get("/view/:id", viewItem);
 
-export default router
+export default router;
